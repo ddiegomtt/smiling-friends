@@ -1,5 +1,7 @@
 (function () {  'use strict';
 
+  const DATABASE_API_URL = "/api/save-results";
+
   // DATASET COMPLETO DEL CUESTIONARIO SANEADO Y SEGURO
   const QUIZ_DATA = {
     1: {
@@ -87,7 +89,7 @@
           options: [
             { key: "A", text: "Tres litros diarios" },
             { key: "B", text: "Todo lo que quieras" },
-            { key: "C", text: "Nada o casi nada" }
+            { key: "C", text: "No o casi nada" }
           ],
           correct: "C",
           errorMsg: "El azúcar favorece la aparición de caries."
@@ -96,7 +98,7 @@
           id: "d3q2",
           question: "¿Tomar agua de manera regular beneficia a tu salud bucal?",
           options: [
-            { key: "A", text: "Sí, favorece la producción de saliva y protege la boca" },
+            { key: "A", text: "Sí, favorece la saliva y protege la boca" },
             { key: "B", text: "No, el agua daña el esmalte" },
             { key: "C", text: "Es indiferente" }
           ],
@@ -158,6 +160,8 @@
 
   // ESTADO DE LA APLICACIÓN
   let appState = {
+    alias: "",
+    edad: "",
     currentDay: 1,
     currentQuestionIndex: 0,
     score: 0,
@@ -173,6 +177,8 @@
     results: document.getElementById('screen-results')
   };
 
+  const inputAlias = document.getElementById('input-alias');
+  const inputEdad = document.getElementById('input-edad');
   const btnStart = document.getElementById('btn-start');
   const btnReset = document.getElementById('btn-reset');
   const btnBackDash = document.getElementById('btn-back-dash');
@@ -197,7 +203,6 @@
   const resultFinalScore = document.getElementById('result-final-score');
   const dashFooterFinish = document.getElementById('dash-footer-finish');
   
-  // Elementos de audio multimedia e imagen dinámica
   const audioCorrect = document.getElementById('audio-correct');
   const audioIncorrect = document.getElementById('audio-incorrect');
   const winMusic = document.getElementById('win-music');
@@ -207,6 +212,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     loadProgress();
     initEventListeners();
+    checkFormValidation();
     renderDashboard();
     
     setTimeout(() => {
@@ -215,7 +221,17 @@
   });
 
   function initEventListeners() {
-    btnStart.addEventListener('click', () => switchScreen('dashboard'));
+    inputAlias.addEventListener('input', checkFormValidation);
+    inputEdad.addEventListener('input', checkFormValidation);
+
+    btnStart.addEventListener('click', () => {
+      appState.alias = inputAlias.value.trim().replace(/[/<>]/g, "");
+      appState.edad = parseInt(inputEdad.value, 10);
+      
+      saveProgress();
+      switchScreen('dashboard');
+    });
+
     btnBackDash.addEventListener('click', () => switchScreen('dashboard'));
     btnResultsBack.addEventListener('click', () => {
       if (winMusic) {
@@ -226,7 +242,7 @@
     });
     
     btnReset.addEventListener('click', () => {
-      if (confirm('¿Seguro que deseas reiniciar tu progreso del reto?')) {
+      if (confirm('¿Seguro que deseas reiniciar tu progreso y tus datos?')) {
         resetProgressData();
       }
     });
@@ -242,7 +258,17 @@
     });
   }
 
-  // NAVEGACIÓN ASÍNCRONA CON ANIMACIONES SUAVES
+  function checkFormValidation() {
+    const aliasVal = inputAlias.value.trim();
+    const edadVal = inputEdad.value.trim();
+
+    if (aliasVal !== "" && edadVal !== "" && parseInt(edadVal, 10) > 0) {
+      btnStart.disabled = false;
+    } else {
+      btnStart.disabled = true;
+    }
+  }
+
   function switchScreen(screenKey) {
     const currentActiveScreen = document.querySelector('.screen.active');
     
@@ -252,9 +278,7 @@
       setTimeout(() => {
         currentActiveScreen.classList.remove('active');
         screens[screenKey].classList.add('active');
-        
         void screens[screenKey].offsetWidth; 
-        
         screens[screenKey].classList.add('fade-in');
         window.scrollTo(0, 0);
       }, 350);
@@ -265,7 +289,6 @@
     }
   }
 
-  // LOGICA DASHBOARD
   function renderDashboard() {
     dashScore.textContent = `${appState.score} / 120`;
 
@@ -314,7 +337,6 @@
     }
   }
 
-  // LÓGICA DEL CUESTIONARIO
   function startDayQuiz(day) {
     appState.currentDay = day;
     appState.currentQuestionIndex = 0;
@@ -350,13 +372,14 @@
 
   function evaluateAnswer(selectedKey, selectedButton) {
     const questionData = QUIZ_DATA[appState.currentDay].questions[appState.currentQuestionIndex];
-    
     const allButtons = optionsGroup.querySelectorAll('.option-btn');
     allButtons.forEach(btn => btn.disabled = true);
 
     const isCorrect = (selectedKey === questionData.correct);
     const answerLogKey = `d${appState.currentDay}q${appState.currentQuestionIndex}`;
-    const previousWasCorrect = appState.answersLog[answerLogKey] === true;
+    const previousWasCorrect = appState.answersLog[answerLogKey] === questionData.correct;
+
+    appState.answersLog[answerLogKey] = selectedKey;
 
     if (isCorrect) {
       selectedButton.classList.add('correct-picked');
@@ -367,7 +390,6 @@
       
       if (!previousWasCorrect) {
         appState.score += 10;
-        appState.answersLog[answerLogKey] = true;
       }
 
       if (audioCorrect) {
@@ -383,12 +405,6 @@
       
       if (previousWasCorrect) {
         appState.score = Math.max(0, appState.score - 10);
-      }
-      appState.answersLog[answerLogKey] = false;
-
-      if (audioIncorrect) {
-        audioIncorrect.currentTime = 0;
-        audioIncorrect.play().catch(() => {});
       }
     }
 
@@ -414,7 +430,6 @@
     }
   }
 
-  // PANTALLA FINAL DE RESULTADOS CON DISPARO DE CONFETI, AUDIO Y RECURSO VISUAL DINÁMICO DE GLEP
   function calculateAndShowResults() {
     resultFinalScore.textContent = appState.score;
     const successPercentage = (appState.score / 120) * 100;
@@ -430,7 +445,8 @@
       resultRank.textContent = "Reforzar / Nivel Bronce";
     }
 
-    // Evaluación del criterio del 80% para la asignación del asset de Glep
+    sendDataToDatabase();
+
     if (successPercentage > 80) {
       if (glepImage) {
         glepImage.src = "glep.gif";
@@ -468,10 +484,32 @@
     switchScreen('results');
   }
 
-  // PERSISTENCIA LOCAL GLOBAL SANEADA
+  function sendDataToDatabase() {
+    const payload = {
+      alias: appState.alias,
+      edad: appState.edad,
+      scoreTotal: appState.score,
+      respuestas: appState.answersLog,
+      timestamp: new Date().toISOString()
+    };
+
+    fetch(DATABASE_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => console.log("Sincronización KV exitosa:", data))
+    .catch(error => console.warn("Modo local activo (KV no enlazado todavía):", error.message));
+  }
+
   function saveProgress() {
     try {
       localStorage.setItem('smiling_friends_progress', JSON.stringify({
+        alias: appState.alias,
+        edad: appState.edad,
         score: appState.score,
         completedDays: appState.completedDays,
         answersLog: appState.answersLog
@@ -484,9 +522,14 @@
       const data = localStorage.getItem('smiling_friends_progress');
       if (data) {
         const parsed = JSON.parse(data);
+        appState.alias = parsed.alias || "";
+        appState.edad = parsed.edad || "";
         appState.score = typeof parsed.score === 'number' ? parsed.score : 0;
         appState.completedDays = Array.isArray(parsed.completedDays) ? parsed.completedDays : [];
         appState.answersLog = parsed.answersLog || {};
+
+        if (appState.alias) inputAlias.value = appState.alias;
+        if (appState.edad) inputEdad.value = appState.edad;
       }
     } catch (e) {}
   }
@@ -501,10 +544,16 @@
       winMusic.currentTime = 0;
     }
 
+    inputAlias.value = "";
+    inputEdad.value = "";
+    
+    appState.alias = "";
+    appState.edad = "";
     appState.score = 0;
     appState.completedDays = [];
     appState.answersLog = {};
     
+    checkFormValidation();
     renderDashboard();
     switchScreen('welcome');
   }
