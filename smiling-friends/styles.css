@@ -237,8 +237,8 @@ body {
 }
 
 .welcome-logo {
-  width: 84px;
-  height: 84px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
   flex-shrink: 0;
 }
