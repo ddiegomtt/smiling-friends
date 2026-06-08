@@ -241,7 +241,7 @@ body {
   height: 84px;
   object-fit: contain;
   flex-shrink: 0;
-  transform: scale(1.5);
+  transform: scale(2.0);
 }
 
 .hero-text {
