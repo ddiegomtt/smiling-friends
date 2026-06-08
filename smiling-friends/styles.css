@@ -523,7 +523,7 @@ body {
   color: #FFFFFF;
   padding: 24px;
   border-radius: var(--border-radius);
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .quote-text {
@@ -539,4 +539,19 @@ body {
   font-size: 14px;
   color: #E2E8F0;
   line-height: 1.4;
+}
+
+/* ESTILOS DE GLEP COMPLEMENTARIOS */
+.glep-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.glep-display {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
 }
