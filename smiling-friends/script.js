@@ -163,9 +163,7 @@
     currentQuestionIndex: 0,
     score: 0,
     completedDays: [],
-    answersLog: {},
-    userId: "",
-    userToken: ""
+    answersLog: {}
   };
 
   // ELEMENTOS DEL DOM
@@ -175,15 +173,6 @@
     quiz: document.getElementById('screen-quiz'),
     results: document.getElementById('screen-results')
   };
-
-  // Inputs de Autenticación Local Separada
-  const inputUserId = document.getElementById('input-user-id');
-  const inputUserToken = document.getElementById('input-user-token');
-  const btnAuthLogin = document.getElementById('btn-auth-login');
-  const btnAuthLogout = document.getElementById('btn-auth-logout');
-  const authLoggedOut = document.getElementById('auth-logged-out');
-  const authLoggedIn = document.getElementById('auth-logged-in');
-  const authUserDisplay = document.getElementById('auth-user-display');
 
   const btnStart = document.getElementById('btn-start');
   const btnReset = document.getElementById('btn-reset');
@@ -211,12 +200,10 @@
 
   // INICIALIZACIÓN
   window.addEventListener('DOMContentLoaded', () => {
-    loadAuthSession();
     loadProgress();
     initEventListeners();
     renderDashboard();
     
-    // Animación inicial en la pantalla de bienvenida por defecto
     setTimeout(() => {
       screens.welcome.classList.add('fade-in');
     }, 50);
@@ -236,10 +223,6 @@
     btnNextQuestion.addEventListener('click', handleNextQuestionAction);
     btnGoResults.addEventListener('click', calculateAndShowResults);
 
-    // Manejo de Sesión / Tokens locales
-    btnAuthLogin.addEventListener('click', handleLocalAuth);
-    btnAuthLogout.addEventListener('click', handleLocalLogout);
-
     document.querySelectorAll('.btn-day').forEach(button => {
       button.addEventListener('click', (e) => {
         const daySelected = parseInt(e.currentTarget.getAttribute('data-day'), 10);
@@ -248,22 +231,18 @@
     });
   }
 
-  // NAVEGACIÓN ASÍNCRONA CON ANIMACIONES SUAVES (FADE IN/OUT Y TRASLACIÓN)
+  // NAVEGACIÓN ASÍNCRONA CON ANIMACIONES SUAVES
   function switchScreen(screenKey) {
     const currentActiveScreen = document.querySelector('.screen.active');
     
     if (currentActiveScreen) {
       currentActiveScreen.classList.remove('fade-in');
       
-      // Esperar que termine la animación de salida (350ms)
       setTimeout(() => {
         currentActiveScreen.classList.remove('active');
-        
-        // Activar la nueva pantalla
         screens[screenKey].classList.add('active');
         
-        // Forzar reflow para que el navegador procese el cambio de display antes de animar
-        void screens[screenKey].offsetWidth;
+        void screens[screenKey].offsetWidth; 
         
         screens[screenKey].classList.add('fade-in');
         window.scrollTo(0, 0);
@@ -272,65 +251,6 @@
       screens[screenKey].classList.add('active');
       void screens[screenKey].offsetWidth;
       screens[screenKey].classList.add('fade-in');
-    }
-  }
-
-  // MANEJO DE TOKEN E IDENTIFICADOR DE USUARIO (SEGURO POR PARTICIÓN DE CONTEXTO LOCAL)
-  function handleLocalAuth() {
-    const rawId = inputUserId.value.trim();
-    const rawToken = inputUserToken.value.trim();
-
-    if (!rawId || !rawToken) {
-      alert("Por favor, ingresa un ID de usuario y su respectivo Token para sincronizar el avance.");
-      return;
-    }
-
-    // Saneamiento básico para evitar inyecciones visuales de texto en la interfaz
-    appState.userId = rawId.replace(/[/<>]/g, "");
-    appState.userToken = rawToken.replace(/[/<>]/g, "");
-
-    // Guardar credenciales de sesión local
-    localStorage.setItem('sf_user_id', appState.userId);
-    localStorage.setItem('sf_user_token', appState.userToken);
-
-    // Cargar el avance específico ligado a ese usuario si existe, de lo contrario inicializar vacío seguro
-    loadProgress();
-    updateAuthVisuals(true);
-    renderDashboard();
-  }
-
-  function handleLocalLogout() {
-    localStorage.removeItem('sf_user_id');
-    localStorage.removeItem('sf_user_token');
-    appState.userId = "";
-    appState.userToken = "";
-    updateAuthVisuals(false);
-    resetProgressData();
-  }
-
-  function loadAuthSession() {
-    const storedId = localStorage.getItem('sf_user_id');
-    const storedToken = localStorage.getItem('sf_user_token');
-    if (storedId && storedToken) {
-      appState.userId = storedId.replace(/[/<>]/g, "");
-      appState.userToken = storedToken.replace(/[/<>]/g, "");
-      updateAuthVisuals(true);
-    } else {
-      updateAuthVisuals(false);
-    }
-  }
-
-  function updateAuthVisuals(isLoggedIn) {
-    if (isLoggedIn) {
-      authLoggedOut.classList.add('hidden-element');
-      authLoggedIn.classList.remove('hidden-element');
-      authUserDisplay.textContent = `ID: ${appState.userId}`;
-    } else {
-      authLoggedIn.classList.add('hidden-element');
-      authLoggedOut.classList.remove('hidden-element');
-      inputUserId.value = "";
-      inputUserToken.value = "";
-      authUserDisplay.textContent = "";
     }
   }
 
@@ -473,7 +393,7 @@
     }
   }
 
-  // PANTALLA FINAL DE RESULTADOS CON DISPARO DE CONFETI ESTRELLA (>80% -> MÁS DE 96 PUNTOS DE 120 POSIBLES)
+  // PANTALLA FINAL DE RESULTADOS CON DISPARO DE CONFETI ESTRELLA (>80%)
   function calculateAndShowResults() {
     resultFinalScore.textContent = appState.score;
     const successPercentage = (appState.score / 120) * 100;
@@ -494,34 +414,26 @@
     // Lanzamiento de Confeti si cumple la regla de éxito estricto (> 80%)
     if (successPercentage > 80 && typeof confetti === 'function') {
       setTimeout(() => {
-        // Disparo desde ráfaga izquierda
         confetti({
           particleCount: 80,
           angle: 60,
           spread: 65,
           origin: { x: 0, y: 0.8 }
         });
-        // Disparo desde ráfaga derecha
         confetti({
           particleCount: 80,
           angle: 120,
           spread: 65,
           origin: { x: 1, y: 0.8 }
         });
-      }, 400); // Lanzar justo al completar la transición suave de pantalla
+      }, 400); 
     }
   }
 
-  // RENDIMIENTO DE PERSISTENCIA POR LLAVE DE USUARIO EXCLUSIVA O LOCAL GLOBAL
-  function getStorageKey() {
-    // Si hay sesión sincronizada con ID de usuario, almacena el progreso bajo esa partición única
-    return appState.userId ? `sf_progress_${appState.userId}` : 'smiling_friends_progress';
-  }
-
+  // PERSISTENCIA LOCAL GLOBAL SANEADA
   function saveProgress() {
     try {
-      const storageKey = getStorageKey();
-      localStorage.setItem(storageKey, JSON.stringify({
+      localStorage.setItem('smiling_friends_progress', JSON.stringify({
         score: appState.score,
         completedDays: appState.completedDays,
         answersLog: appState.answersLog
@@ -531,26 +443,19 @@
 
   function loadProgress() {
     try {
-      const storageKey = getStorageKey();
-      const data = localStorage.getItem(storageKey);
+      const data = localStorage.getItem('smiling_friends_progress');
       if (data) {
         const parsed = JSON.parse(data);
         appState.score = typeof parsed.score === 'number' ? parsed.score : 0;
         appState.completedDays = Array.isArray(parsed.completedDays) ? parsed.completedDays : [];
         appState.answersLog = parsed.answersLog || {};
-      } else {
-        // Inicializar vacío si el usuario sincronizado no tiene progreso previo guardado localmente
-        appState.score = 0;
-        appState.completedDays = [];
-        appState.answersLog = {};
       }
     } catch (e) {}
   }
 
   function resetProgressData() {
     try {
-      const storageKey = getStorageKey();
-      localStorage.removeItem(storageKey);
+      localStorage.removeItem('smiling_friends_progress');
     } catch (e) {}
     
     appState.score = 0;
