@@ -197,10 +197,11 @@
   const resultFinalScore = document.getElementById('result-final-score');
   const dashFooterFinish = document.getElementById('dash-footer-finish');
   
-  // Elementos de audio multimedia nativos
+  // Elementos de audio multimedia e imagen dinámica
   const audioCorrect = document.getElementById('audio-correct');
   const audioIncorrect = document.getElementById('audio-incorrect');
   const winMusic = document.getElementById('win-music');
+  const glepImage = document.getElementById('glep-image');
 
   // INICIALIZACIÓN
   window.addEventListener('DOMContentLoaded', () => {
@@ -369,7 +370,6 @@
         appState.answersLog[answerLogKey] = true;
       }
 
-      // Reproducción inmediata del audio correcto
       if (audioCorrect) {
         audioCorrect.currentTime = 0;
         audioCorrect.play().catch(() => {});
@@ -386,7 +386,6 @@
       }
       appState.answersLog[answerLogKey] = false;
 
-      // Reproducción inmediata del audio incorrecto
       if (audioIncorrect) {
         audioIncorrect.currentTime = 0;
         audioIncorrect.play().catch(() => {});
@@ -415,7 +414,7 @@
     }
   }
 
-  // PANTALLA FINAL DE RESULTADOS CON DISPARO DE CONFETI Y AUDIO (>80%)
+  // PANTALLA FINAL DE RESULTADOS CON DISPARO DE CONFETI, AUDIO Y RECURSO VISUAL DINÁMICO DE GLEP
   function calculateAndShowResults() {
     resultFinalScore.textContent = appState.score;
     const successPercentage = (appState.score / 120) * 100;
@@ -431,9 +430,12 @@
       resultRank.textContent = "Reforzar / Nivel Bronce";
     }
 
-    switchScreen('results');
-
+    // Evaluación del criterio del 80% para la asignación del asset de Glep
     if (successPercentage > 80) {
+      if (glepImage) {
+        glepImage.src = "glep.gif";
+      }
+
       if (typeof confetti === 'function') {
         setTimeout(() => {
           confetti({
@@ -457,7 +459,13 @@
           console.log("El navegador restringió la reproducción de audio automática:", err);
         });
       }
+    } else {
+      if (glepImage) {
+        glepImage.src = "glep2.png";
+      }
     }
+
+    switchScreen('results');
   }
 
   // PERSISTENCIA LOCAL GLOBAL SANEADA
