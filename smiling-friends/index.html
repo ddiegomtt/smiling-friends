@@ -27,8 +27,20 @@
         <p>Pon a prueba tus conocimientos, acumula hasta 120 puntos y consigue tu medalla de oro en salud bucal.</p>
       </div>
 
+      <div class="auth-form-card">
+        <h3>Completa tus datos para iniciar:</h3>
+        <div class="input-field">
+          <label for="input-alias">Alias o Nombre:</label>
+          <input type="text" id="input-alias" placeholder="Ej: Diego" maxlength="20" required autocorrect="off">
+        </div>
+        <div class="input-field">
+          <label for="input-edad">Edad:</label>
+          <input type="number" id="input-edad" placeholder="Ej: 15" min="1" max="99" required>
+        </div>
+      </div>
+
       <div class="action-zone">
-        <button id="btn-start" class="btn btn-primary">Empezar el reto</button>
+        <button id="btn-start" class="btn btn-primary" disabled>Empezar el reto</button>
       </div>
     </section>
 
