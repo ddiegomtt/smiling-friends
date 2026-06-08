@@ -89,7 +89,7 @@
           options: [
             { key: "A", text: "Tres litros diarios" },
             { key: "B", text: "Todo lo que quieras" },
-            { key: "C", text: "No o casi nada" }
+            { key: "C", text: "Nada o casi nada" }
           ],
           correct: "C",
           errorMsg: "El azúcar favorece la aparición de caries."
@@ -98,7 +98,7 @@
           id: "d3q2",
           question: "¿Tomar agua de manera regular beneficia a tu salud bucal?",
           options: [
-            { key: "A", text: "Sí, favorece la saliva y protege la boca" },
+            { key: "A", text: "Sí, favorece la producción de saliva y protege la boca" },
             { key: "B", text: "No, el agua daña el esmalte" },
             { key: "C", text: "Es indiferente" }
           ],
