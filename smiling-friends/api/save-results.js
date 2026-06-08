@@ -1,12 +1,13 @@
-import { put } from '@vercel/blob';
+const { put } = require('@vercel/blob');
 
-export default async function handler(request, response) {
-  // Configuración de cabeceras CORS de forma segura
+module.exports = async function handler(request, response) {
+  // Configuración de cabeceras CORS robustas
   response.setHeader('Access-Control-Allow-Credentials', true);
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   response.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
+  // Responder a peticiones de pre-vuelo (CORS)
   if (request.method === 'OPTIONS') {
     return response.status(200).end();
   }
@@ -33,24 +34,24 @@ export default async function handler(request, response) {
       timestamp: timestamp || new Date().toISOString()
     };
 
-    // Extraemos de forma segura el token asignado al entorno
+    // Respaldo de tokens seguro en CommonJS
     const token = process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_READ_WRITE_TOKEN;
 
     if (!token) {
-      console.error("Error crítico: Credenciales de acceso (token) no configuradas en el servidor.");
-      return response.status(500).json({ error: 'Configuración incompleta en el servidor remoto.' });
+      console.error("Error: Token de autenticación no encontrado.");
+      return response.status(500).json({ error: 'Falta configuración de credenciales en el servidor.' });
     }
 
-    // Pasamos el token explícitamente en los parámetros del PUT para evitar fallos de inicialización en Node.js 24
+    // Invocación directa y síncrona de almacenamiento
     const blob = await put(fileName, JSON.stringify(payload, null, 2), {
       access: 'encrypted',
       contentType: 'application/json',
-      token: token // <--- Fuerza la autenticación directa por código
+      token: token
     });
 
-    return response.status(200).json({ success: true, message: 'Datos almacenados con éxito.', url: blob.url });
+    return response.status(200).json({ success: true, message: 'Datos guardados con éxito.', url: blob.url });
   } catch (error) {
-    console.error('Error durante la invocación de Vercel Blob:', error.message);
-    return response.status(500).json({ error: 'Error interno en la ejecución del almacenamiento seguro.' });
+    console.error('Error en la ejecución de la función:', error.message);
+    return response.status(500).json({ error: 'Error interno en el procesamiento del almacenamiento.' });
   }
-}
+};
