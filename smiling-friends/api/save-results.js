@@ -11,14 +11,14 @@ export default async function handler(request, response) {
   }
 
   if (request.method !== 'POST') {
-    return response.status(455).json({ error: 'Método no permitido. Usa POST.' });
+    return response.status(455).json({ error: 'Método no permitido.' });
   }
 
   try {
     const { alias, edad, scoreTotal, respuestas, timestamp } = request.body;
 
     if (!alias || !edad) {
-      return response.status(400).json({ error: 'Faltan datos críticos (alias o edad).' });
+      return response.status(400).json({ error: 'Faltan datos críticos.' });
     }
 
     const fileName = `records/${alias.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}.json`;
@@ -31,6 +31,7 @@ export default async function handler(request, response) {
       timestamp: timestamp || new Date().toISOString()
     };
 
+    // Validación e inyección directa del token del sistema o del archivo vercel.json
     const token = process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_READ_WRITE_TOKEN;
 
     const blob = await put(fileName, JSON.stringify(payload, null, 2), {
@@ -41,7 +42,7 @@ export default async function handler(request, response) {
 
     return response.status(200).json({ success: true, message: 'Datos guardados con éxito.', url: blob.url });
   } catch (error) {
-    console.error('Error durante la invocación de Vercel Blob:', error.message);
-    return response.status(500).json({ error: 'Error interno en el procesamiento del almacenamiento seguro.' });
+    console.error('Error en Vercel Blob:', error.message);
+    return response.status(500).json({ error: 'Error interno en el servidor.' });
   }
 }
