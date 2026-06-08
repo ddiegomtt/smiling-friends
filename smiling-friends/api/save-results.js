@@ -1,6 +1,7 @@
 import { put } from '@vercel/blob';
 
 export default async function handler(request, response) {
+  // Configuración de cabeceras CORS de forma segura
   response.setHeader('Access-Control-Allow-Credentials', true);
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -21,7 +22,7 @@ export default async function handler(request, response) {
       return response.status(400).json({ error: 'Faltan datos críticos (alias o edad).' });
     }
 
-    // Nombre único para el archivo JSON dentro de tu almacenamiento
+    // Nombre de archivo único e higienizado
     const fileName = `records/${alias.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}.json`;
 
     const payload = {
@@ -32,15 +33,24 @@ export default async function handler(request, response) {
       timestamp: timestamp || new Date().toISOString()
     };
 
-    // Guarda el resultado directamente como un archivo seguro en Vercel Blob
+    // Extraemos de forma segura el token asignado al entorno
+    const token = process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_READ_WRITE_TOKEN;
+
+    if (!token) {
+      console.error("Error crítico: Credenciales de acceso (token) no configuradas en el servidor.");
+      return response.status(500).json({ error: 'Configuración incompleta en el servidor remoto.' });
+    }
+
+    // Pasamos el token explícitamente en los parámetros del PUT para evitar fallos de inicialización en Node.js 24
     const blob = await put(fileName, JSON.stringify(payload, null, 2), {
-      access: 'encrypted', // Máxima privacidad de datos
+      access: 'encrypted',
       contentType: 'application/json',
+      token: token // <--- Fuerza la autenticación directa por código
     });
 
-    return response.status(200).json({ success: true, message: 'Datos almacenados con éxito en Blob.', url: blob.url });
+    return response.status(200).json({ success: true, message: 'Datos almacenados con éxito.', url: blob.url });
   } catch (error) {
-    console.error('Error interno en Vercel Blob:', error);
-    return response.status(500).json({ error: 'Error interno al guardar en el almacenamiento.' });
+    console.error('Error durante la invocación de Vercel Blob:', error.message);
+    return response.status(500).json({ error: 'Error interno en la ejecución del almacenamiento seguro.' });
   }
 }
