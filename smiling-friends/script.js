@@ -377,6 +377,8 @@
 
     const isCorrect = (selectedKey === questionData.correct);
     const answerLogKey = `d${appState.currentDay}q${appState.currentQuestionIndex}`;
+    
+    // Verificación booleana correcta del historial previo
     const previousWasCorrect = appState.answersLog[answerLogKey] === questionData.correct;
 
     appState.answersLog[answerLogKey] = selectedKey;
@@ -405,6 +407,11 @@
       
       if (previousWasCorrect) {
         appState.score = Math.max(0, appState.score - 10);
+      }
+
+      if (audioIncorrect) {
+        audioIncorrect.currentTime = 0;
+        audioIncorrect.play().catch(() => {});
       }
     }
 
