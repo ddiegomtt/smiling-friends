@@ -85,6 +85,57 @@ body {
   display: block !important;
 }
 
+/* TARJETA FORMULARIO DE INGRESO DE DATOS */
+.auth-form-card {
+  background-color: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.auth-form-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-main);
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.input-field:last-child {
+  margin-bottom: 0;
+}
+
+.input-field label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.input-field input {
+  min-height: 48px;
+  border: 2px solid #E2E8F0;
+  border-radius: var(--border-radius-sm);
+  padding: 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  background-color: #F7FAFC;
+  transition: border-color 0.2s ease;
+}
+
+.input-field input:focus {
+  outline: none;
+  border-color: var(--btn-primary);
+  background-color: var(--bg-card);
+}
+
 /* BOTONES Y ACCIONES TÁCTILES */
 .btn {
   width: 100%;
@@ -126,6 +177,7 @@ body {
   border: none;
   cursor: not-allowed;
   transform: none;
+  opacity: 0.7;
 }
 
 .btn-text-danger {
@@ -202,7 +254,7 @@ body {
   background-color: var(--bg-card);
   padding: 24px;
   border-radius: var(--border-radius);
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .welcome-emoji {
