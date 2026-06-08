@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smiling Friends — Hábitos Dentales</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <main class="app-container">
+    
+    <div id="auth-bar" class="auth-bar">
+      <div id="auth-logged-out" class="auth-zone-header">
+        <input type="text" id="input-user-id" placeholder="ID Usuario" aria-label="ID de Usuario">
+        <input type="password" id="input-user-token" placeholder="Token" aria-label="Token de Acceso">
+        <button id="btn-auth-login" class="btn-sm">Sincronizar</button>
+      </div>
+      <div id="auth-logged-in" class="auth-zone-header hidden-element">
+        <span id="auth-user-display" class="auth-user-text"></span>
+        <button id="btn-auth-logout" class="btn-sm btn-sm-danger">Salir</button>
+      </div>
+    </div>
+    
+    <section id="screen-welcome" class="screen active">
+      <header class="welcome-header">
+        <span class="brand-badge" aria-hidden="true">✨ Educación Dental</span>
+        <div class="welcome-title-container">
+          <h1>Smiling<br>Friends</h1>
+          <img src="logo.png" alt="Smiling Friends Logo" class="welcome-logo">
+        </div>
+        <p class="hero-text">Aprender hábitos saludables puede ser tan simple como responder 3 preguntas al día.</p>
+      </header>
+
+      <div class="welcome-card">
+        <div class="welcome-emoji" aria-hidden="true">🪥</div>
+        <h2>Reto de 4 Días</h2>
+        <p>Pon a prueba tus conocimientos, acumula hasta 120 puntos y consigue tu medalla de oro en salud bucal.</p>
+      </div>
+
+      <div class="action-zone">
+        <button id="btn-start" class="btn btn-primary">Empezar el reto</button>
+      </div>
+    </section>
+
+    <section id="screen-dashboard" class="screen">
+      <header class="app-bar">
+        <h2>Mi Progreso</h2>
+        <button id="btn-reset" class="btn-text-danger" aria-label="Reiniciar todo el progreso">Reiniciar</button>
+      </header>
+
+      <div class="score-banner">
+        <span class="score-label">PUNTUACIÓN TOTAL</span>
+        <span id="dash-score" class="score-value">0 / 120</span>
+      </div>
+
+      <div class="days-grid" role="region" aria-label="Progreso por días">
+        <div class="day-card" id="card-day-1">
+          <div class="day-card-header">
+            <h3>Día 1: Rutina Básica</h3>
+            <span class="day-status" id="status-day-1">Bloqueado</span>
+          </div>
+          <p class="day-desc">Tiempo, frecuencia y el momento clave antes de ir a dormir.</p>
+          <button class="btn btn-secondary btn-day" id="btn-day-1" data-day="1" disabled>Bloqueado</button>
+        </div>
+
+        <div class="day-card" id="card-day-2">
+          <div class="day-card-header">
+            <h3>Día 2: Técnica y Flúor</h3>
+            <span class="day-status" id="status-day-2">Bloqueado</span>
+          </div>
+          <p class="day-desc">Zonas de cepillado, limpieza de lengua y protección del esmalte.</p>
+          <button class="btn btn-secondary btn-day" id="btn-day-2" data-day="2" disabled>Bloqueado</button>
+        </div>
+
+        <div class="day-card" id="card-day-3">
+          <div class="day-card-header">
+            <h3>Día 3: Alimentación</h3>
+            <span class="day-status" id="status-day-3">Bloqueado</span>
+          </div>
+          <p class="day-desc">Azúcares, agua e impacto de los dulces entre comidas.</p>
+          <button class="btn btn-secondary btn-day" id="btn-day-3" data-day="3" disabled>Bloqueado</button>
+        </div>
+
+        <div class="day-card" id="card-day-4">
+          <div class="day-card-header">
+            <h3>Día 4: Herramientas</h3>
+            <span class="day-status" id="status-day-4">Bloqueado</span>
+          </div>
+          <p class="day-desc">Uso de seda dental, renovación de cepillo y prevención nocturna.</p>
+          <button class="btn btn-secondary btn-day" id="btn-day-4" data-day="4" disabled>Bloqueado</button>
+        </div>
+      </div>
+
+      <div class="dashboard-footer hidden-element" id="dash-footer-finish">
+        <button id="btn-go-results" class="btn btn-primary">Ver resultado final 🏆</button>
+      </div>
+    </section>
+
+    <section id="screen-quiz" class="screen">
+      <header class="quiz-header">
+        <button id="btn-back-dash" class="btn-back" aria-label="Volver al inicio">← Volver</button>
+        <div class="quiz-meta">
+          <span id="quiz-day-title" class="quiz-day-badge">Día 1</span>
+          <span id="quiz-step-indicator" class="quiz-step">Pregunta 1 de 3</span>
+        </div>
+      </header>
+
+      <div class="progress-bar-container">
+        <div id="quiz-progress-fill" class="progress-bar-fill"></div>
+      </div>
+
+      <div class="question-container">
+        <h2 id="question-text">¿Cuánto tiempo debe durar cada sesión de cepillado dental para ser efectiva?</h2>
+        
+        <div id="options-group" class="options-vertical-list" role="radiogroup" aria-labelledby="question-text">
+          </div>
+      </div>
+
+      <div id="feedback-panel" class="feedback-panel hidden" aria-live="assertive">
+        <div class="feedback-content">
+          <div class="feedback-title-row">
+            <span id="feedback-emoji" class="feedback-emoji"></span>
+            <h3 id="feedback-title">¡Correcto!</h3>
+          </div>
+          <p id="feedback-text">El cepillado debe durar al menos 2 minutos para asegurar la limpieza.</p>
+          <button id="btn-next-question" class="btn btn-primary">Continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-results" class="screen">
+      <header class="results-header">
+        <h1>Tu Resultado</h1>
+      </header>
+
+      <div class="medal-card">
+        <div id="result-badge-emoji" class="medal-emoji">🏆</div>
+        <h2 id="result-rank">Nivel Oro</h2>
+        <div class="result-score-box">
+          <span id="result-final-score">110</span>
+          <span class="total-possible">/ 120 puntos</span>
+        </div>
+      </div>
+
+      <div class="editorial-card">
+        <p class="quote-text">“Aprender hábitos saludables puede ser tan simple como responder 3 preguntas al día”</p>
+        <p class="final-cta-message">¡Sigue cuidando tu sonrisa cada día para mantenerla fuerte y reluciente! 😁</p>
+      </div>
+
+      <div class="action-zone">
+        <button id="btn-results-back" class="btn btn-primary">Volver al Dashboard</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
