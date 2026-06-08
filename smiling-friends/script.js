@@ -1,5 +1,4 @@
-(function () {
-  'use strict';
+(function () {  'use strict';
 
   // DATASET COMPLETO DEL CUESTIONARIO SANEADO Y SEGURO
   const QUIZ_DATA = {
@@ -84,7 +83,7 @@
       questions: [
         {
           id: "d3q1",
-          question: "¿Qué cantidad de bebidas azucaradas es recomendable consumir para cuidar tus dientes?",
+          question: "¿Qué cantidad de bebidas azucaradas es recomendable consumable para cuidar tus dientes?",
           options: [
             { key: "A", text: "Tres litros diarios" },
             { key: "B", text: "Todo lo que quieras" },
@@ -197,6 +196,9 @@
   const resultRank = document.getElementById('result-rank');
   const resultFinalScore = document.getElementById('result-final-score');
   const dashFooterFinish = document.getElementById('dash-footer-finish');
+  
+  // Elemento de audio multimedia nativo
+  const winMusic = document.getElementById('win-music');
 
   // INICIALIZACIÓN
   window.addEventListener('DOMContentLoaded', () => {
@@ -212,7 +214,14 @@
   function initEventListeners() {
     btnStart.addEventListener('click', () => switchScreen('dashboard'));
     btnBackDash.addEventListener('click', () => switchScreen('dashboard'));
-    btnResultsBack.addEventListener('click', () => switchScreen('dashboard'));
+    btnResultsBack.addEventListener('click', () => {
+      // Detiene la canción si el usuario decide regresar al dashboard desde los resultados
+      if (winMusic) {
+        winMusic.pause();
+        winMusic.currentTime = 0;
+      }
+      switchScreen('dashboard');
+    });
     
     btnReset.addEventListener('click', () => {
       if (confirm('¿Seguro que deseas reiniciar tu progreso del reto?')) {
@@ -393,7 +402,7 @@
     }
   }
 
-  // PANTALLA FINAL DE RESULTADOS CON DISPARO DE CONFETI ESTRELLA (>80%)
+  // PANTALLA FINAL DE RESULTADOS CON DISPARO DE CONFETI Y AUDIO (>80%)
   function calculateAndShowResults() {
     resultFinalScore.textContent = appState.score;
     const successPercentage = (appState.score / 120) * 100;
@@ -411,22 +420,33 @@
 
     switchScreen('results');
 
-    // Lanzamiento de Confeti si cumple la regla de éxito estricto (> 80%)
-    if (successPercentage > 80 && typeof confetti === 'function') {
-      setTimeout(() => {
-        confetti({
-          particleCount: 80,
-          angle: 60,
-          spread: 65,
-          origin: { x: 0, y: 0.8 }
+    // Validación de éxito estricto (> 80% de respuestas correctas)
+    if (successPercentage > 80) {
+      // Disparo de ráfagas estéticas bilaterales de confeti
+      if (typeof confetti === 'function') {
+        setTimeout(() => {
+          confetti({
+            particleCount: 80,
+            angle: 60,
+            spread: 65,
+            origin: { x: 0, y: 0.8 }
+          });
+          confetti({
+            particleCount: 80,
+            angle: 120,
+            spread: 65,
+            origin: { x: 1, y: 0.8 }
+          });
+        }, 400); 
+      }
+
+      // Reproducción controlada del archivo de audio local 'musica.mp3'
+      if (winMusic) {
+        winMusic.currentTime = 0;
+        winMusic.play().catch(err => {
+          console.log("El navegador restringió la reproducción de audio automática:", err);
         });
-        confetti({
-          particleCount: 80,
-          angle: 120,
-          spread: 65,
-          origin: { x: 1, y: 0.8 }
-        });
-      }, 400); 
+      }
     }
   }
 
@@ -458,6 +478,11 @@
       localStorage.removeItem('smiling_friends_progress');
     } catch (e) {}
     
+    if (winMusic) {
+      winMusic.pause();
+      winMusic.currentTime = 0;
+    }
+
     appState.score = 0;
     appState.completedDays = [];
     appState.answersLog = {};
