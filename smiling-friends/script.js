@@ -83,11 +83,11 @@
       questions: [
         {
           id: "d3q1",
-          question: "¿Qué cantidad de bebidas azucaradas es recomendable consumable para cuidar tus dientes?",
+          question: "¿Qué cantidad de bebidas azucaradas es recomendable consumir para cuidar tus dientes?",
           options: [
             { key: "A", text: "Tres litros diarios" },
             { key: "B", text: "Todo lo que quieras" },
-            { key: "C", text: "No o casi nada" }
+            { key: "C", text: "Nada o casi nada" }
           ],
           correct: "C",
           errorMsg: "El azúcar favorece la aparición de caries."
@@ -96,7 +96,7 @@
           id: "d3q2",
           question: "¿Tomar agua de manera regular beneficia a tu salud bucal?",
           options: [
-            { key: "A", text: "Sí, favorece la saliva y protege la boca" },
+            { key: "A", text: "Sí, favorece la producción de saliva y protege la boca" },
             { key: "B", text: "No, el agua daña el esmalte" },
             { key: "C", text: "Es indiferente" }
           ],
@@ -197,7 +197,9 @@
   const resultFinalScore = document.getElementById('result-final-score');
   const dashFooterFinish = document.getElementById('dash-footer-finish');
   
-  // Elemento de audio multimedia nativo
+  // Elementos de audio multimedia nativos
+  const audioCorrect = document.getElementById('audio-correct');
+  const audioIncorrect = document.getElementById('audio-incorrect');
   const winMusic = document.getElementById('win-music');
 
   // INICIALIZACIÓN
@@ -215,7 +217,6 @@
     btnStart.addEventListener('click', () => switchScreen('dashboard'));
     btnBackDash.addEventListener('click', () => switchScreen('dashboard'));
     btnResultsBack.addEventListener('click', () => {
-      // Detiene la canción si el usuario decide regresar al dashboard desde los resultados
       if (winMusic) {
         winMusic.pause();
         winMusic.currentTime = 0;
@@ -367,6 +368,12 @@
         appState.score += 10;
         appState.answersLog[answerLogKey] = true;
       }
+
+      // Reproducción inmediata del audio correcto
+      if (audioCorrect) {
+        audioCorrect.currentTime = 0;
+        audioCorrect.play().catch(() => {});
+      }
     } else {
       selectedButton.classList.add('incorrect-picked');
       feedbackPanel.className = "feedback-panel incorrect";
@@ -378,6 +385,12 @@
         appState.score = Math.max(0, appState.score - 10);
       }
       appState.answersLog[answerLogKey] = false;
+
+      // Reproducción inmediata del audio incorrecto
+      if (audioIncorrect) {
+        audioIncorrect.currentTime = 0;
+        audioIncorrect.play().catch(() => {});
+      }
     }
 
     feedbackPanel.classList.remove('hidden');
@@ -420,9 +433,7 @@
 
     switchScreen('results');
 
-    // Validación de éxito estricto (> 80% de respuestas correctas)
     if (successPercentage > 80) {
-      // Disparo de ráfagas estéticas bilaterales de confeti
       if (typeof confetti === 'function') {
         setTimeout(() => {
           confetti({
@@ -440,7 +451,6 @@
         }, 400); 
       }
 
-      // Reproducción controlada del archivo de audio local 'musica.mp3'
       if (winMusic) {
         winMusic.currentTime = 0;
         winMusic.play().catch(err => {
