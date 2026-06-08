@@ -56,52 +56,6 @@ body {
   }
 }
 
-/* CONTROL DE AUTENTICACIÓN / SESIÓN VISUAL */
-.auth-bar {
-  background-color: rgba(26, 32, 44, 0.05);
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(26, 32, 44, 0.1);
-}
-
-.auth-zone-header {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.auth-zone-header input {
-  flex: 1;
-  min-height: 36px;
-  border: 1px solid #CBD5E0;
-  border-radius: 6px;
-  padding: 0 8px;
-  font-size: 13px;
-  background-color: var(--bg-card);
-}
-
-.btn-sm {
-  min-height: 36px;
-  background-color: var(--text-main);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 6px;
-  padding: 0 12px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.btn-sm-danger {
-  background-color: #E53E3E;
-}
-
-.auth-user-text {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-main);
-  flex: 1;
-}
-
 /* ENRUTADO Y ANIMACIONES DE PANTALLAS */
 .screen {
   display: none;
@@ -199,7 +153,7 @@ body {
 
 /* PANTALLA 1: BIENVENIDA */
 .welcome-header {
-  margin-top: 16px;
+  margin-top: 24px;
   margin-bottom: 32px;
 }
 
