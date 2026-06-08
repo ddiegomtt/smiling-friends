@@ -33,9 +33,9 @@ export default async function handler(request, response) {
 
     const token = process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_READ_WRITE_TOKEN;
 
-    // Corrección del parámetro de acceso al estándar oficial de Vercel ('private')
+    // CORRECCIÓN CLAVE: 'unlisted' es el parámetro oficial de Vercel para máxima privacidad
     const blob = await put(fileName, JSON.stringify(payload, null, 2), {
-      access: 'private', 
+      access: 'unlisted', 
       contentType: 'application/json',
       token: token
     });
