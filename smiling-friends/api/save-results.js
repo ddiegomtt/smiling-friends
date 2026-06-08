@@ -31,11 +31,11 @@ export default async function handler(request, response) {
       timestamp: timestamp || new Date().toISOString()
     };
 
-    // Validación e inyección directa del token del sistema o del archivo vercel.json
     const token = process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_READ_WRITE_TOKEN;
 
+    // Corrección del parámetro de acceso al estándar oficial de Vercel ('private')
     const blob = await put(fileName, JSON.stringify(payload, null, 2), {
-      access: 'encrypted',
+      access: 'private', 
       contentType: 'application/json',
       token: token
     });
