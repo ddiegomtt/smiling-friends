@@ -369,12 +369,12 @@
 
     // LÓGICA DE DESBLOQUEO CRONOLÓGICO POR DÍAS NATURALES
     let allowedMaxDay = 5;
-    if (appState.startDate) {
-      const startDayMidnight = new Date(appState.startDate).setHours(0,0,0,0);
-      const currentDayMidnight = new Date().setHours(0,0,0,0);
-      const diffInMilliseconds = currentDayMidnight - startDayMidnight;
-      const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
-      allowedMaxDay = Math.min(5, diffInDays + 1);
+//    if (appState.startDate) {
+  //    const startDayMidnight = new Date(appState.startDate).setHours(0,0,0,0);
+    //  const currentDayMidnight = new Date().setHours(0,0,0,0);
+//      const diffInMilliseconds = currentDayMidnight - startDayMidnight;
+  //    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+    //  allowedMaxDay = Math.min(5, diffInDays + 1);
     }
 
     const isWholeGameFinished = appState.completedDays.length === 5;
