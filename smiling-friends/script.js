@@ -9,11 +9,11 @@
       questions: [
         {
           id: "d1q1",
-          question: "¿Cuánto tiempo te demoras en cepillarte los dientes?",
+          question: "¿Cuánto tiempo demoras en cepillar tus dientes?",
           options: [
             { key: "A", text: "40–50 segundos" },
             { key: "B", text: "2–3 minutos" },
-            { key: "C", text: "3–5 minutos" }
+            { key: "C", text: "5–8 minutos" }
           ],
           correct: ["B"],
           errorMsg: "El tiempo ideal para remover bien la placa bacteriana es de 2 a 3 minutos."
@@ -156,14 +156,14 @@
         },
         {
           id: "d4q2",
-          question: "¿Sientes dolor o sensibilidad en los dientes al comer algo frío, caliente o dulce?",
+          question: "¿Es normal sentir sensibilidad aguda o dolor en los dientes al comer algo muy frío o dulce?",
           options: [
-            { key: "A", text: "Sí, frecuentemente" },
-            { key: "B", text: "Algunas veces" },
-            { key: "C", text: "No, nunca" }
+            { key: "A", text: "Sí, es algo que le pasa a todo el mundo" },
+            { key: "B", text: "Solo si muerdes hielo directo" },
+            { key: "C", text: "No, es una señal de alerta de que el esmalte está débil o hay caries" }
           ],
           correct: ["C"],
-          errorMsg: "La sensibilidad indica que tu esmalte está débil o hay principio de caries."
+          errorMsg: "La sensibilidad indica daño. Tu esmalte se está desgastando o ya tienes el principio de una caries."
         },
         {
           id: "d4q3",
@@ -241,10 +241,6 @@
     startDate: null // Almacena el momento exacto de registro inicial
   };
 
-  // CONTROLADORES DE TIEMPO GLOBALES
-  let timerInterval = null;
-  let timeLeft = 10;
-
   // ELEMENTOS DEL DOM
   const screens = {
     welcome: document.getElementById('screen-welcome'),
@@ -314,7 +310,6 @@
     });
 
     btnBackDash.addEventListener('click', () => {
-      clearInterval(timerInterval);
       switchScreen('dashboard');
     });
     
@@ -373,7 +368,7 @@
     dashScore.textContent = `${appState.score} / 180`;
 
     // LÓGICA DE DESBLOQUEO CRONOLÓGICO POR DÍAS NATURALES
-    let allowedMaxDay = 1;
+    let allowedMaxDay = 5;
     if (appState.startDate) {
       const startDayMidnight = new Date(appState.startDate).setHours(0,0,0,0);
       const currentDayMidnight = new Date().setHours(0,0,0,0);
@@ -450,7 +445,9 @@
     const totalQuestions = currentDayData.questions.length;
 
     quizDayTitle.textContent = currentDayData.title;
-    quizStepIndicator.textContent = `Pregunta ${appState.currentQuestionIndex + 1} de ${totalQuestions}`;
+    
+    // Simplificación del indicador de progreso solicitada
+    quizStepIndicator.textContent = `${appState.currentQuestionIndex + 1} de ${totalQuestions}`;
     
     const progressPercent = ((appState.currentQuestionIndex + 1) / totalQuestions) * 100;
     quizProgressFill.style.width = `${progressPercent}%`;
@@ -466,80 +463,9 @@
       btn.addEventListener('click', () => evaluateAnswer(opt.key, btn));
       optionsGroup.appendChild(btn);
     });
-
-    // INICIALIZACIÓN E INYECCIÓN DINÁMICA DE LA BARRA DE TEMPORIZADOR DE 10S
-    let timerWrapper = document.getElementById('quiz-timer-wrapper');
-    if (!timerWrapper) {
-      timerWrapper = document.createElement('div');
-      timerWrapper.id = 'quiz-timer-wrapper';
-      timerWrapper.style = 'width: 100%; background: #E2E8F0; height: 8px; border-radius: 4px; margin-bottom: 24px; overflow: hidden; display: flex; align-items: center; position: relative;';
-      
-      const timerFill = document.createElement('div');
-      timerFill.id = 'quiz-timer-fill';
-      timerFill.style = 'height: 100%; background: #E53E3E; width: 100%; transition: width 0.1s linear;';
-      
-      const timerText = document.createElement('span');
-      timerText.id = 'quiz-timer-counter';
-      timerText.style = 'position: absolute; right: 10px; font-size: 11px; font-weight: 800; color: #FFFFFF; background: #1A202C; padding: 1px 6px; border-radius: 8px;';
-      
-      timerWrapper.appendChild(timerFill);
-      timerWrapper.appendChild(timerText);
-      questionText.parentNode.insertBefore(timerWrapper, questionText);
-    }
-
-    initQuestionTimer();
-  }
-
-  function initQuestionTimer() {
-    clearInterval(timerInterval);
-    timeLeft = 10;
-    
-    const timerFill = document.getElementById('quiz-timer-fill');
-    const timerText = document.getElementById('quiz-timer-counter');
-    
-    timerFill.style.width = '100%';
-    timerText.textContent = '10s';
-
-    timerInterval = setInterval(() => {
-      timeLeft -= 0.1;
-      if (timeLeft <= 0) {
-        timeLeft = 0;
-        clearInterval(timerInterval);
-        timerFill.style.width = '0%';
-        timerText.textContent = '0s';
-        handleQuestionTimeout();
-      } else {
-        timerFill.style.width = `${(timeLeft / 10) * 100}%`;
-        timerText.textContent = `${Math.ceil(timeLeft)}s`;
-      }
-    }, 100);
-  }
-
-  function handleQuestionTimeout() {
-    const questionData = QUIZ_DATA[appState.currentDay].questions[appState.currentQuestionIndex];
-    const allButtons = optionsGroup.querySelectorAll('.option-btn');
-    allButtons.forEach(btn => btn.disabled = true);
-
-    const answerLogKey = `d${appState.currentDay}q${appState.currentQuestionIndex}`;
-    appState.answersLog[answerLogKey] = "TIMEOUT";
-
-    feedbackPanel.className = "feedback-panel incorrect";
-    feedbackEmoji.textContent = "⏱️";
-    feedbackTitle.textContent = "Tiempo Agotado";
-    feedbackText.textContent = questionData.errorMsg;
-
-    if (audioIncorrect) {
-      audioIncorrect.currentTime = 0;
-      audioIncorrect.play().catch(() => {});
-    }
-
-    feedbackPanel.classList.remove('hidden');
-    saveProgress();
   }
 
   function evaluateAnswer(selectedKey, selectedButton) {
-    clearInterval(timerInterval); // Frenamos el segundero inmediatamente al responder
-    
     const questionData = QUIZ_DATA[appState.currentDay].questions[appState.currentQuestionIndex];
     const allButtons = optionsGroup.querySelectorAll('.option-btn');
     allButtons.forEach(btn => btn.disabled = true);
@@ -697,7 +623,6 @@
   }
 
   function resetProgressData() {
-    clearInterval(timerInterval);
     try {
       localStorage.removeItem('smiling_friends_progress');
     } catch (e) {}
