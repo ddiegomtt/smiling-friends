@@ -9,47 +9,47 @@
       questions: [
         {
           id: "d1q1",
-          question: "¿Cuánto tiempo debe durar un cepillado dental para remover la placa de forma efectiva?",
+          question: "¿Cuánto tiempo demoras en cepillar tus dientes?",
           options: [
-            { key: "A", text: "Con 40–50 segundos rápidos es suficiente" },
-            { key: "B", text: "Entre 2 y 3 minutos" },
-            { key: "C", text: "Mínimo 5 minutos por reloj" }
+            { key: "A", text: "40–50 segundos" },
+            { key: "B", text: "2–3 minutos" },
+            { key: "C", text: "5–8 minutos" }
           ],
           correct: ["B"],
-          errorMsg: "El estándar de oro para remover bien la placa bacteriana es de 2 a 3 minutos."
+          errorMsg: "El tiempo ideal para remover bien la placa bacteriana es de 2 a 3 minutos."
         },
         {
           id: "d1q2",
-          question: "¿Qué características debe tener el cepillo de dientes ideal para no dañar tu boca?",
+          question: "¿Cómo es tu cepillo de dientes?",
           options: [
-            { key: "A", text: "Cabezal grande con cerdas duras para raspar mejor" },
-            { key: "B", text: "Cabezal pequeño para llegar al fondo y cerdas suaves" },
-            { key: "C", text: "Cabezal mediano con cerdas súper rígidas" }
+            { key: "A", text: "Cabezal grande con cerdas duras" },
+            { key: "B", text: "Cabezal pequeño con cerdas suaves" },
+            { key: "C", text: "Cabezal mediano con cerdas normales" }
           ],
           correct: ["B"],
-          errorMsg: "Lo ideal es un cabezal pequeño para llegar a todos los rincones y cerdas suaves para no erosionar el esmalte ni retraer las encías."
+          errorMsg: "Lo ideal es un cabezal pequeño para llegar a todos los rincones y cerdas suaves para no dañar tus encías."
         },
         {
           id: "d1q3",
-          question: "¿Por qué es obligatorio incluir la lengua en tu rutina de higiene?",
+          question: "¿Te lavas la lengua cuando te cepillas los dientes?",
           options: [
-            { key: "A", text: "Porque ahí se esconden las bacterias que causan mal aliento" },
-            { key: "B", text: "No es obligatorio, se limpia sola con la saliva" },
-            { key: "C", text: "Solo sirve para sentir mejor los sabores" }
+            { key: "A", text: "Sí, siempre" },
+            { key: "B", text: "De vez en cuando" },
+            { key: "C", text: "No, nunca" }
           ],
           correct: ["A"],
-          errorMsg: "La lengua actúa como una esponja que retiene muchísimas bacterias. Cepillarla es la clave contra el mal aliento."
+          errorMsg: "La lengua retiene muchísimas bacterias que causan mal aliento. Lávala siempre."
         },
         {
           id: "d1q4",
-          question: "¿Cuál es el protocolo correcto si comes algo justo antes de irte a dormir?",
+          question: "Antes de dormir, ¿te cepillas los dientes después de tu última comida y esperas un tiempo antes de dormir?",
           options: [
-            { key: "A", text: "Esperar unos 30 minutos y luego cepillarme" },
-            { key: "B", text: "Cepillarme inmediatamente para irme a la cama rápido" },
-            { key: "C", text: "Enjuagarme solo con agua porque ya es muy tarde" }
+            { key: "A", text: "Sí, siempre y espero unos 30 minutos" },
+            { key: "B", text: "A veces me cepillo, pero no espero" },
+            { key: "C", text: "No, nunca me cepillo antes de dormir" }
           ],
           correct: ["A"],
-          errorMsg: "Debes esperar 30 minutos para permitir que la saliva neutralice los ácidos de la comida; si te cepillas de inmediato, frotas el ácido contra el esmalte."
+          errorMsg: "Esperar 30 minutos permite que la saliva neutralice los ácidos de la comida antes de cepillarte."
         }
       ]
     },
@@ -58,47 +58,47 @@
       questions: [
         {
           id: "d2q1",
-          question: "¿Cuál es el movimiento más efectivo que debes hacer con el cepillo?",
+          question: "Cuando te cepillas los dientes, ¿qué movimiento haces con el cepillo?",
           options: [
-            { key: "A", text: "Hacer círculos muy rápidos y con fuerza" },
-            { key: "B", text: "Frotar de lado a lado (horizontalmente)" },
-            { key: "C", text: "Colocar el cepillo entre la encía y el diente y hacer un barrido hacia afuera" }
+            { key: "A", text: "Solo haces círculos rápidos" },
+            { key: "B", text: "Solo haces movimientos vibratorios" },
+            { key: "C", text: "Coloco el cepillo entre la encía y el diente y hago movimientos de barrido" }
           ],
           correct: ["C"],
-          errorMsg: "El movimiento de barrido (de la encía hacia el diente) es el único que logra expulsar los restos de comida que se esconden en el borde."
+          errorMsg: "El movimiento de barrido es el más efectivo para sacar los restos de comida."
         },
         {
           id: "d2q2",
-          question: "¿Qué zonas de los dientes son las más críticas y NUNCA debes olvidar?",
+          question: "¿Qué tanto cubres tus dientes al cepillarte?",
           options: [
-            { key: "A", text: "Solo las partes de adelante que se ven al sonreír" },
-            { key: "B", text: "Todas las caras, especialmente la línea pegada a la encía" },
-            { key: "C", text: "Solo las muelas de atrás porque con ellas se mastica" }
+            { key: "A", text: "Solo las partes visibles cuando sonrío" },
+            { key: "B", text: "Todas las superficies de los dientes, incluyendo la parte cercana a la encía" },
+            { key: "C", text: "Solo las muelas de atrás" }
           ],
           correct: ["B"],
-          errorMsg: "La placa bacteriana se esconde principalmente en las caras internas y justo en la línea donde el diente se junta con la encía."
+          errorMsg: "La placa se esconde en todas las caras del diente, especialmente cerca de la encía."
         },
         {
           id: "d2q3",
-          question: "Al momento de limpiar la zona de las encías, ¿cuál es la técnica correcta?",
+          question: "¿Qué haces con el cepillo al limpiar la encía?",
           options: [
-            { key: "A", text: "Evitar tocarlas con el cepillo para no lastimarlas" },
-            { key: "B", text: "Pasar el cepillo suavemente masajeando la unión diente-encía" },
-            { key: "C", text: "Frotar con fuerza para sacar toda la suciedad atrapada" }
+            { key: "A", text: "No paso el cepillo por la encía, solo los dientes" },
+            { key: "B", text: "Paso el cepillo suavemente entre el diente y la encía" },
+            { key: "C", text: "Frote con fuerza para “sacar toda la suciedad”" }
           ],
           correct: ["B"],
-          errorMsg: "Debes masajear la encía suavemente. Si frotas con fuerza bruta, puedes retraerla y exponer la raíz del diente."
+          errorMsg: "Debes masajear la encía suavemente. Si frotas con fuerza, puedes retraerla y causar daño."
         },
         {
           id: "d2q4",
-          question: "¿Cada cuánto tiempo es obligatorio cambiar tu cepillo por uno nuevo?",
+          question: "¿Con qué frecuencia cambias tu cepillo de dientes?",
           options: [
-            { key: "A", text: "Solo cuando las cerdas se ven destruidas o abiertas" },
-            { key: "B", text: "Cada 3 meses aproximadamente (o después de enfermarse)" },
-            { key: "C", text: "Puede durar todo el año si lo enjuago bien" }
+            { key: "A", text: "Solo cuando se ve muy usado o se rompe" },
+            { key: "B", text: "Cada 3 meses aproximadamente" },
+            { key: "C", text: "Nunca, uso el mismo hasta que se arruine completamente" }
           ],
           correct: ["B"],
-          errorMsg: "La vida útil técnica de un cepillo es de 3 meses máximo. Después de eso, no limpia bien a nivel microscópico."
+          errorMsg: "Recuerda: la vida útil de un cepillo es de máximo 3 meses."
         }
       ]
     },
@@ -107,36 +107,36 @@
       questions: [
         {
           id: "d3q1",
-          question: "¿Qué opinan los dentistas sobre el uso del hilo dental?",
+          question: "¿Usas hilo dental para limpiar entre tus dientes?",
           options: [
-            { key: "A", text: "Es opcional, el cepillo saca todo" },
-            { key: "B", text: "Solo sirve cuando te queda carne atrapada" },
-            { key: "C", text: "Es obligatorio todos los días para limpiar entre los dientes" }
+            { key: "A", text: "Nunca" },
+            { key: "B", text: "Algunas veces a la semana" },
+            { key: "C", text: "Sí, todos los días" }
           ],
           correct: ["C"],
-          errorMsg: "El cepillo no llega al espacio entre los dientes. El hilo dental diario es obligatorio para evitar caries ocultas (interproximales)."
+          errorMsg: "El cepillo no llega entre los dientes. El hilo dental diario es obligatorio para evitar caries ocultas."
         },
         {
           id: "d3q2",
-          question: "¿Cuál es la técnica correcta para usar el hilo dental sin lastimarte?",
+          question: "Cuando usas hilo dental, ¿cómo lo haces?",
           options: [
-            { key: "A", text: "Meterlo y sacarlo rápido haciendo fuerza hacia abajo" },
-            { key: "B", text: "Deslizarlo suavemente abrazando cada diente en forma de 'C'" },
-            { key: "C", text: "Pasarlo por encima de las muelas" }
+            { key: "A", text: "Paso el hilo rápido y sin cubrir toda la superficie del diente" },
+            { key: "B", text: "Paso el hilo suavemente cubriendo ambos lados del diente" },
+            { key: "C", text: "Paso el hilo solo una vez por semana" }
           ],
           correct: ["B"],
-          errorMsg: "Debes abrazar el diente formando una 'C' con el hilo para raspar la placa pegada a las paredes sin cortar la encía."
+          errorMsg: "Debes abrazar el diente formando una 'C' con el hilo para raspar la placa de ambos lados."
         },
         {
           id: "d3q3",
-          question: "¿Cuál es la función real del enjuague bucal (colutorio)?",
+          question: "¿Usas enjuague bucal (colutorio)?",
           options: [
-            { key: "A", text: "Reemplazar al cepillo cuando tienes prisa" },
-            { key: "B", text: "Actuar como un complemento extra de protección" },
-            { key: "C", text: "Solo para tener buen aliento por 5 minutos" }
+            { key: "A", text: "Nunca" },
+            { key: "B", text: "Algunas veces" },
+            { key: "C", text: "Todos los días" }
           ],
-          correct: ["B"],
-          errorMsg: "El enjuague no reemplaza al cepillo ni al hilo, es solo un complemento final (un 'buff' extra) para la protección de tu boca."
+          correct: ["B", "C"],
+          errorMsg: "El enjuague es un excelente complemento, usarlo algunas veces te da protección extra."
         }
       ]
     },
@@ -145,14 +145,14 @@
       questions: [
         {
           id: "d4q1",
-          question: "Si las encías de una persona sangran un poco al cepillarse, ¿qué significa?",
+          question: "¿Tus encías sangran cuando te cepillas los dientes?",
           options: [
-            { key: "A", text: "Es normal, significa que se cepilló con buena fuerza" },
-            { key: "B", text: "A veces pasa por culpa de la marca de la pasta" },
-            { key: "C", text: "No es normal, es señal de inflamación (gingivitis)" }
+            { key: "A", text: "Sí, siempre" },
+            { key: "B", text: "A veces" },
+            { key: "C", text: "No, nunca" }
           ],
           correct: ["C"],
-          errorMsg: "Una encía sana NUNCA sangra. Si sangra, hay bacterias acumuladas inflamando la zona."
+          errorMsg: "Una encía sana NO sangra. Si sangra, es señal de inflamación."
         },
         {
           id: "d4q2",
@@ -167,27 +167,27 @@
         },
         {
           id: "d4q3",
-          question: "Si empiezas a sentir una molestia constante o un dolor punzante en un diente, ¿cuál es la mejor decisión táctica?",
+          question: "Si sientes dolor en algún diente o molestia fuerte en tu boca, ¿qué sueles hacer?",
           options: [
-            { key: "A", text: "Esperar un par de semanas a ver si se pasa solo" },
-            { key: "B", text: "Ignorarlo y masticar por el otro lado de la boca" },
-            { key: "C", text: "Avisar e ir al dentista de inmediato antes de que empeore" }
+            { key: "A", text: "No hago nada y espero a que pase" },
+            { key: "B", text: "Me enjuago con agua o como que “lo ignoro”" },
+            { key: "C", text: "Aviso a un adulto o voy al dentista" }
           ],
           correct: ["C"],
-          errorMsg: "El dolor dental nunca se cura solo. Ignorarlo ahora solo hará que el tratamiento futuro sea más complejo y doloroso."
+          errorMsg: "El dolor dental no se cura solo. Ignorarlo hará que el tratamiento sea más doloroso después."
         }
       ]
     },
     5: {
-      title: "Día 5: Compromiso y Hábitos Avanzados",
+      title: "Día 5: Retroalimentación y hábitos avanzados",
       questions: [
         {
           id: "d5q1",
           question: "Después de estos días, ¿te has lavado los dientes aproximadamente 2–3 minutos?",
           options: [
-            { key: "A", text: "Sí, algunas veces", feedback: "¡Buen esfuerzo! Trata de que sea la regla general. Esos minutos extra hacen toda la diferencia." },
-            { key: "B", text: "No, casi nunca", feedback: "Reconocerlo es el primer paso. Intenta ponerte una alarma o una canción de 3 minutos para guiarte." },
-            { key: "C", text: "Sí, siempre", feedback: "¡Disciplina pura! Esa constancia te ahorrará muchísimos problemas en el futuro." }
+            { key: "A", text: "Sí, algunas veces" },
+            { key: "B", text: "No, casi nunca" },
+            { key: "C", text: "Sí, siempre" }
           ],
           correct: ["A", "C"],
           errorMsg: "Puedes mejorar esto para cuidar mejor tus dientes. La constancia es lo más importante."
@@ -196,9 +196,9 @@
           id: "d5q2",
           question: "Después de estos días, ¿has comenzado a cuidar más tu lengua, usar hilo dental o colutorio?",
           options: [
-            { key: "A", text: "No, sigo igual", feedback: "La boca es un ecosistema. Si lavas los dientes pero omites la lengua o el hilo, dejas el trabajo a la mitad." },
-            { key: "B", text: "Sí, a veces", feedback: "¡Es un gran avance! Incorporar un hábito nuevo cuesta, mantén el ritmo y pronto será automático." },
-            { key: "C", text: "Sí, todos los días", feedback: "¡Nivel Experto desbloqueado! Esa rutina completa mantendrá tu salud bucal impecable." }
+            { key: "A", text: "No, sigo igual" },
+            { key: "B", text: "Sí, a veces" },
+            { key: "C", text: "Sí, todos los días" }
           ],
           correct: ["B", "C"],
           errorMsg: "Tu boca es un ecosistema. Si solo lavas los dientes y dejas la lengua sucia, las bacterias volverán."
@@ -207,23 +207,23 @@
           id: "d5q3",
           question: "Después de comer algo dulce o ácido, ¿esperas unos 30 minutos antes de cepillarte los dientes?",
           options: [
-            { key: "A", text: "No, me cepillo inmediatamente", feedback: "Cuidado: el ácido debilita el esmalte temporalmente y el cepillo lo raya. ¡Ponte el reto de esperar 30 minutos!" },
-            { key: "B", text: "A veces", feedback: "Es un hábito engañoso, pero esperar esos 30 minutos salva tu esmalte a largo plazo." },
-            { key: "C", text: "Sí, siempre", feedback: "¡Excelente táctica! Dejar que la saliva neutralice los ácidos primero es un detalle clave." }
+            { key: "A", text: "No, me cepillo inmediatamente" },
+            { key: "B", text: "A veces" },
+            { key: "C", text: "Sí, siempre" }
           ],
           correct: ["B", "C"],
           errorMsg: "Es mejor esperar 30 minutos para proteger el esmalte, ya que el ácido lo debilita temporalmente."
         },
         {
           id: "d5q4",
-          question: "¿Qué parte de tu higiene bucal crees que debes mejorar más a partir de hoy?",
+          question: "¿Qué parte de tu higiene bucal crees que debes mejorar más?",
           options: [
-            { key: "A", text: "Cepillado (tiempo o técnica)", feedback: "Dominar la técnica de barrido y los 2 minutos transformará por completo tu sonrisa. ¡A darle con todo!" },
-            { key: "B", text: "Uso de hilo dental o colutorio", feedback: "El hilo dental limpia ese 40% del diente que el cepillo no toca. Es una excelente meta para subir de nivel." },
-            { key: "C", text: "Tener un hábito de higiene de todos los días", feedback: "La constancia vence a la perfección. Fija un recordatorio en tu teléfono para no fallar ninguna noche." }
+            { key: "A", text: "Cepillado (tiempo o técnica)" },
+            { key: "B", text: "Uso de hilo dental / colutorio" },
+            { key: "C", text: "Tener un hábito de higiene de todos los días" }
           ],
           correct: ["A", "B", "C"],
-          errorMsg: "" // Fallback
+          errorMsg: "Reconocer qué te falta es el primer paso." // Fallback
         }
       ]
     }
