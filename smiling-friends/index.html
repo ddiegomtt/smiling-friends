@@ -18,13 +18,13 @@
           <h1>Smiling<br>Friends</h1>
           <img src="logo.png" alt="Smiling Friends Logo" class="welcome-logo">
         </div>
-        <p class="hero-text">Aprender hábitos saludables puede ser tan simple como responder 3 preguntas al día.</p>
+        <p class="hero-text">Aprender hábitos saludables puede ser tan simple como responder unas cuantas preguntas al día.</p>
       </header>
 
       <div class="welcome-card">
         <div class="welcome-emoji" aria-hidden="true">🪥</div>
-        <h2>Reto de 4 Días</h2>
-        <p>Pon a prueba tus conocimientos, acumula hasta 120 puntos y consigue tu medalla de oro en salud bucal.</p>
+        <h2>Reto de 5 Días</h2>
+        <p>Pon a prueba tus conocimientos, acumula hasta 180 puntos y sube de rango en tu salud bucal.</p>
       </div>
 
       <div class="auth-form-card">
@@ -35,7 +35,7 @@
         </div>
         <div class="input-field">
           <label for="input-edad">Edad:</label>
-          <input type="number" id="input-edad" placeholder="Ej: 67" min="1" max="99" required>
+          <input type="number" id="input-edad" placeholder="Ej: 16" min="1" max="99" required>
         </div>
       </div>
 
@@ -52,13 +52,13 @@
 
       <div class="score-banner">
         <span class="score-label">PUNTUACIÓN TOTAL</span>
-        <span id="dash-score" class="score-value">0 / 120</span>
+        <span id="dash-score" class="score-value">0 / 180</span>
       </div>
 
       <div class="days-grid" role="region" aria-label="Progreso por días">
         <div class="day-card" id="card-day-1">
           <div class="day-card-header">
-            <h3>Día 1: Rutina Básica</h3>
+            <h3>Día 1: Hábitos de cepillado</h3>
             <span class="day-status" id="status-day-1">Bloqueado</span>
           </div>
           <p class="day-desc">Tiempo, frecuencia y el momento clave antes de ir a dormir.</p>
@@ -67,29 +67,38 @@
 
         <div class="day-card" id="card-day-2">
           <div class="day-card-header">
-            <h3>Día 2: Técnica y Flúor</h3>
+            <h3>Día 2: Técnicas de cepillado</h3>
             <span class="day-status" id="status-day-2">Bloqueado</span>
           </div>
-          <p class="day-desc">Zonas de cepillado, limpieza de lengua y protección del esmalte.</p>
+          <p class="day-desc">Zonas de cepillado, técnica de barrido y cuidado de la encía.</p>
           <button class="btn btn-secondary btn-day" id="btn-day-2" data-day="2" disabled>Bloqueado</button>
         </div>
 
         <div class="day-card" id="card-day-3">
           <div class="day-card-header">
-            <h3>Día 3: Alimentación</h3>
+            <h3>Día 3: Colutorio y seda dental</h3>
             <span class="day-status" id="status-day-3">Bloqueado</span>
           </div>
-          <p class="day-desc">Azúcares, agua e impacto de los dulces entre comidas.</p>
+          <p class="day-desc">Limpieza profunda, enjuague y uso correcto del hilo dental.</p>
           <button class="btn btn-secondary btn-day" id="btn-day-3" data-day="3" disabled>Bloqueado</button>
         </div>
 
         <div class="day-card" id="card-day-4">
           <div class="day-card-header">
-            <h3>Día 4: Herramientas</h3>
+            <h3>Día 4: Molestias bucales</h3>
             <span class="day-status" id="status-day-4">Bloqueado</span>
           </div>
-          <p class="day-desc">Uso de seda dental, renovación de cepillo y prevención nocturna.</p>
+          <p class="day-desc">Sangrado, sensibilidad y qué hacer en caso de dolor.</p>
           <button class="btn btn-secondary btn-day" id="btn-day-4" data-day="4" disabled>Bloqueado</button>
+        </div>
+
+        <div class="day-card" id="card-day-5">
+          <div class="day-card-header">
+            <h3>Día 5: Retroalimentación</h3>
+            <span class="day-status" id="status-day-5">Bloqueado</span>
+          </div>
+          <p class="day-desc">Evaluación de tus hábitos avanzados y constancia en estos días.</p>
+          <button class="btn btn-secondary btn-day" id="btn-day-5" data-day="5" disabled>Bloqueado</button>
         </div>
       </div>
 
@@ -103,7 +112,7 @@
         <button id="btn-back-dash" class="btn-back" aria-label="Volver al inicio">← Volver</button>
         <div class="quiz-meta">
           <span id="quiz-day-title" class="quiz-day-badge">Día 1</span>
-          <span id="quiz-step-indicator" class="quiz-step">Pregunta 1 de 3</span>
+          <span id="quiz-step-indicator" class="quiz-step">Pregunta 1 de 4</span>
         </div>
       </header>
 
@@ -112,7 +121,7 @@
       </div>
 
       <div class="question-container">
-        <h2 id="question-text">¿Cuánto tiempo debe durar cada sesión de cepillado dental para ser efectiva?</h2>
+        <h2 id="question-text">...</h2>
         
         <div id="options-group" class="options-vertical-list" role="radiogroup" aria-labelledby="question-text">
         </div>
@@ -124,7 +133,7 @@
             <span id="feedback-emoji" class="feedback-emoji"></span>
             <h3 id="feedback-title">¡Correcto!</h3>
           </div>
-          <p id="feedback-text">El cepillado debe durar al menos 2 minutos para asegurar la limpieza.</p>
+          <p id="feedback-text">...</p>
           <button id="btn-next-question" class="btn btn-primary">Continuar</button>
         </div>
       </div>
@@ -139,14 +148,14 @@
         <div id="result-badge-emoji" class="medal-emoji">🏆</div>
         <h2 id="result-rank">Nivel Oro</h2>
         <div class="result-score-box">
-          <span id="result-final-score">110</span>
-          <span class="total-possible">/ 120 puntos</span>
+          <span id="result-final-score">0</span>
+          <span class="total-possible">/ 180 puntos</span>
         </div>
       </div>
 
       <div class="editorial-card">
-        <p class="quote-text">“Aprender hábitos saludables puede ser tan simple como responder 3 preguntas al día”</p>
-        <p class="final-cta-message">¡Sigue cuidando tu sonrisa cada día para mantenerla fuerte y reluciente! 😁</p>
+        <p class="quote-text">“Un protocolo impecable de higiene te salva de apuros el fin de semana.”</p>
+        <p class="final-cta-message">Mantén la técnica a tope. ¡Nos vemos en la próxima revisión!</p>
       </div>
 
       <div class="glep-container">
@@ -154,16 +163,4 @@
       </div>
 
       <div class="action-zone">
-        <button id="btn-results-back" class="btn btn-primary">Volver al Dashboard</button>
-      </div>
-    </section>
-
-  </main>
-
-  <audio id="audio-correct" src="correct.mp3" preload="auto"></audio>
-  <audio id="audio-incorrect" src="incorrect.mp3" preload="auto"></audio>
-  <audio id="win-music" src="musica.mp3" preload="auto"></audio>
-
-  <script src="script.js"></script>
-</body>
-</html>
+        <button id="btn-results-back" class="btn btn-primary">Volver al Dashboard
