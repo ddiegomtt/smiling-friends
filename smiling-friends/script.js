@@ -185,9 +185,9 @@
           id: "d5q1",
           question: "Después de estos días, ¿te has lavado los dientes aproximadamente 2–3 minutos?",
           options: [
-            { key: "A", text: "Sí, algunas veces" },
-            { key: "B", text: "No, casi nunca" },
-            { key: "C", text: "Sí, siempre" }
+            { key: "A", text: "Sí, algunas veces", feedback: "¡Buen esfuerzo! Trata de que sea la regla general. Esos minutos extra hacen toda la diferencia." },
+            { key: "B", text: "No, casi nunca", feedback: "Reconocerlo es el primer paso. Intenta ponerte una alarma o una canción de 3 minutos para guiarte." },
+            { key: "C", text: "Sí, siempre", feedback: "¡Disciplina pura! Esa constancia te ahorrará muchísimos problemas en el futuro." }
           ],
           correct: ["A", "C"],
           errorMsg: "Puedes mejorar esto para cuidar mejor tus dientes. La constancia es lo más importante."
@@ -196,9 +196,9 @@
           id: "d5q2",
           question: "Después de estos días, ¿has comenzado a cuidar más tu lengua, usar hilo dental o colutorio?",
           options: [
-            { key: "A", text: "No, sigo igual" },
-            { key: "B", text: "Sí, a veces" },
-            { key: "C", text: "Sí, todos los días" }
+            { key: "A", text: "No, sigo igual", feedback: "La boca es un ecosistema. Si lavas los dientes pero omites la lengua o el hilo, dejas el trabajo a la mitad." },
+            { key: "B", text: "Sí, a veces", feedback: "¡Es un gran avance! Incorporar un hábito nuevo cuesta, mantén el ritmo y pronto será automático." },
+            { key: "C", text: "Sí, todos los días", feedback: "¡Nivel Experto desbloqueado! Esa rutina completa mantendrá tu salud bucal impecable." }
           ],
           correct: ["B", "C"],
           errorMsg: "Tu boca es un ecosistema. Si solo lavas los dientes y dejas la lengua sucia, las bacterias volverán."
@@ -207,9 +207,9 @@
           id: "d5q3",
           question: "Después de comer algo dulce o ácido, ¿esperas unos 30 minutos antes de cepillarte los dientes?",
           options: [
-            { key: "A", text: "No, me cepillo inmediatamente" },
-            { key: "B", text: "A veces" },
-            { key: "C", text: "Sí, siempre" }
+            { key: "A", text: "No, me cepillo inmediatamente", feedback: "Cuidado: el ácido debilita el esmalte temporalmente y el cepillo lo raya. ¡Ponte el reto de esperar 30 minutos!" },
+            { key: "B", text: "A veces", feedback: "Es un hábito engañoso, pero esperar esos 30 minutos salva tu esmalte a largo plazo." },
+            { key: "C", text: "Sí, siempre", feedback: "¡Excelente táctica! Dejar que la saliva neutralice los ácidos primero es un detalle clave." }
           ],
           correct: ["B", "C"],
           errorMsg: "Es mejor esperar 30 minutos para proteger el esmalte, ya que el ácido lo debilita temporalmente."
@@ -218,12 +218,12 @@
           id: "d5q4",
           question: "¿Qué parte de tu higiene bucal crees que debes mejorar más?",
           options: [
-            { key: "A", text: "Cepillado (tiempo o técnica)" },
-            { key: "B", text: "Uso de hilo dental / colutorio" },
-            { key: "C", text: "Tener un hábito de higiene de todos los días" }
+            { key: "A", text: "Cepillado (tiempo o técnica)", feedback: "Dominar la técnica de barrido y los 2 minutos transformará por completo tu sonrisa. ¡A darle con todo!" },
+            { key: "B", text: "Uso de hilo dental o colutorio", feedback: "El hilo dental limpia ese 40% del diente que el cepillo no toca. Es una excelente meta para subir de nivel." },
+            { key: "C", text: "Tener un hábito de higiene de todos los días", feedback: "La constancia vence a la perfección. Fija un recordatorio en tu teléfono para no fallar ninguna noche." }
           ],
           correct: ["A", "B", "C"],
-          errorMsg: "Reconocer qué te falta es el primer paso." // Fallback
+          errorMsg: "Reconocer qué te falta es el primer paso."
         }
       ]
     }
@@ -243,7 +243,7 @@
 
   // CONTROLADORES DE TIEMPO GLOBALES
   let timerInterval = null;
-  let timeLeft = 10;
+  let timeLeft = 15; // Actualizado a 15 segundos
 
   // ELEMENTOS DEL DOM
   const screens = {
@@ -464,19 +464,30 @@
       optionsGroup.appendChild(btn);
     });
 
-    // INYECCIÓN DE LA BARRA DE TIEMPO (SIN NÚMEROS)
-    let timerWrapper = document.getElementById('quiz-timer-wrapper');
-    if (!timerWrapper) {
-      timerWrapper = document.createElement('div');
+    // INYECCIÓN VISUAL DEL CONTENEDOR CON SEGUNDERO (15 SEG) Y BARRA
+    let timerMainContainer = document.getElementById('quiz-timer-main-container');
+    if (!timerMainContainer) {
+      timerMainContainer = document.createElement('div');
+      timerMainContainer.id = 'quiz-timer-main-container';
+      timerMainContainer.style = 'width: 100%; margin-bottom: 24px; display: flex; flex-direction: column; align-items: center; gap: 8px;';
+      
+      const timerTextLabel = document.createElement('div');
+      timerTextLabel.id = 'quiz-timer-counter';
+      timerTextLabel.style = 'font-size: 16px; font-weight: 800; color: #1A202C; background-color: #E8F4F8; border: 2px solid #E2E8F0; padding: 4px 16px; border-radius: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: background-color 0.3s;';
+      
+      const timerWrapper = document.createElement('div');
       timerWrapper.id = 'quiz-timer-wrapper';
-      timerWrapper.style = 'width: 100%; background: #E2E8F0; height: 8px; border-radius: 4px; margin-bottom: 24px; overflow: hidden; display: flex; align-items: center; position: relative;';
+      timerWrapper.style = 'width: 100%; background: #E2E8F0; height: 8px; border-radius: 4px; overflow: hidden;';
       
       const timerFill = document.createElement('div');
       timerFill.id = 'quiz-timer-fill';
       timerFill.style = 'height: 100%; background: #E53E3E; width: 100%; transition: width 0.1s linear;';
       
       timerWrapper.appendChild(timerFill);
-      questionText.parentNode.insertBefore(timerWrapper, questionText);
+      timerMainContainer.appendChild(timerTextLabel);
+      timerMainContainer.appendChild(timerWrapper);
+      
+      questionText.parentNode.insertBefore(timerMainContainer, questionText);
     }
 
     initQuestionTimer();
@@ -484,20 +495,32 @@
 
   function initQuestionTimer() {
     clearInterval(timerInterval);
-    timeLeft = 10;
+    timeLeft = 15; // Temporizador iniciado en 15 segundos
     
     const timerFill = document.getElementById('quiz-timer-fill');
+    const timerText = document.getElementById('quiz-timer-counter');
+    
     timerFill.style.width = '100%';
+    timerText.style.backgroundColor = '#E8F4F8'; // Reseteamos el color por si acaso
+    timerText.innerHTML = `⏱️ ${Math.ceil(timeLeft)}s`;
 
     timerInterval = setInterval(() => {
       timeLeft -= 0.1;
+      
+      // Añadimos un pequeño efecto visual cuando quedan menos de 5 segundos
+      if (timeLeft <= 5.0 && timeLeft > 0) {
+        timerText.style.backgroundColor = '#FEC5B6';
+      }
+
       if (timeLeft <= 0) {
         timeLeft = 0;
         clearInterval(timerInterval);
         timerFill.style.width = '0%';
+        timerText.innerHTML = `⏱️ 0s`;
         handleQuestionTimeout();
       } else {
-        timerFill.style.width = `${(timeLeft / 10) * 100}%`;
+        timerFill.style.width = `${(timeLeft / 15) * 100}%`;
+        timerText.innerHTML = `⏱️ ${Math.ceil(timeLeft)}s`;
       }
     }, 100);
   }
@@ -513,7 +536,7 @@
     feedbackPanel.className = "feedback-panel incorrect";
     feedbackEmoji.textContent = "⏱️";
     feedbackTitle.textContent = "Tiempo Agotado";
-    feedbackText.textContent = questionData.errorMsg || "Demoraste demasiado. Intenta ser más rápido.";
+    feedbackText.textContent = questionData.errorMsg || "Demoraste demasiado. Intenta ser más rápido en la siguiente.";
 
     if (audioIncorrect) {
       audioIncorrect.currentTime = 0;
@@ -540,7 +563,6 @@
 
     appState.answersLog[answerLogKey] = selectedKey;
 
-    // Buscamos si la opción seleccionada tiene un feedback personalizado
     const selectedOptionObj = questionData.options.find(opt => opt.key === selectedKey);
     const customFeedback = selectedOptionObj ? selectedOptionObj.feedback : null;
 
@@ -549,7 +571,6 @@
       feedbackPanel.className = "feedback-panel correct";
       feedbackEmoji.textContent = "✅";
       feedbackTitle.textContent = "¡Buen punto!";
-      // Prioriza el feedback de la opción si existe, si no usa el genérico
       feedbackText.textContent = customFeedback || "Sigue con esa mentalidad.";
       
       if (!previousWasCorrect) {
@@ -565,7 +586,6 @@
       feedbackPanel.className = "feedback-panel incorrect";
       feedbackEmoji.textContent = "💡";
       feedbackTitle.textContent = "Revisión técnica";
-      // Prioriza el feedback de la opción si existe, si no usa el errorMsg general
       feedbackText.textContent = customFeedback || questionData.errorMsg;
       
       if (previousWasCorrect) {
